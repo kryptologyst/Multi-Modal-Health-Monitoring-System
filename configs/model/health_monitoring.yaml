@@ -1,0 +1,48 @@
+# Model configuration for multi-modal health monitoring
+
+# Architecture settings
+architecture:
+  num_classes: 6
+  fusion_strategy: "attention"  # attention, concat, or late_fusion
+  
+# Encoder configurations
+encoders:
+  text:
+    model_name: "distilbert-base-uncased"
+    freeze_weights: false
+    output_dim: 768
+    
+  image:
+    model_name: "openai/clip-vit-base-patch32"
+    freeze_weights: false
+    output_dim: 512
+    
+  audio:
+    input_dim: 128
+    output_dim: 512
+    num_filters: 64
+
+# Fusion layer configuration
+fusion:
+  hidden_dim: 512
+  num_heads: 8
+  dropout: 0.1
+  attention_type: "cross_attention"
+
+# Classification head
+classifier:
+  hidden_layers: [512, 256]
+  dropout: 0.1
+  activation: "relu"
+
+# Uncertainty quantification
+uncertainty:
+  enabled: true
+  method: "ensemble"  # ensemble, dropout, or evidential
+  num_samples: 10
+
+# Calibration
+calibration:
+  enabled: true
+  method: "temperature_scaling"
+  temperature_init: 1.0

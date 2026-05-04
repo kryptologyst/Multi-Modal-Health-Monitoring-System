@@ -1,0 +1,48 @@
+# Default training configuration for multi-modal health monitoring
+
+# Model configuration
+model:
+  num_classes: 6
+  text_model_name: "distilbert-base-uncased"
+  image_model_name: "openai/clip-vit-base-patch32"
+  fusion_hidden_dim: 512
+  dropout: 0.1
+
+# Training configuration
+training:
+  num_epochs: 10
+  batch_size: 8
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  patience: 5
+  
+# Loss configuration
+loss:
+  uncertainty_weight: 0.1
+  calibration_weight: 0.1
+
+# Data configuration
+data:
+  max_text_length: 512
+  audio_sample_rate: 16000
+  audio_max_length: 10.0
+  image_size: [224, 224]
+  augment: true
+
+# Evaluation configuration
+evaluation:
+  save_predictions: true
+  create_visualizations: true
+  uncertainty_analysis: true
+
+# Logging configuration
+logging:
+  level: "INFO"
+  save_logs: true
+  log_dir: "logs"
+
+# Device configuration
+device:
+  use_cuda: true
+  use_mps: true  # Apple Silicon support
+  fallback_cpu: true
